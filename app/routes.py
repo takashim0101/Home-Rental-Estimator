@@ -24,8 +24,13 @@ CORS(app) # Allow access from anywhere (should be restricted in a production env
 
 @app.route('/')
 def index():
-    sample_data = df.to_dict('records')
-    feature_names = df.columns.tolist()
+    # Convert 'Size' column in df from sqft to m² for display
+    df_display = df.copy()
+    df_display['Size'] = (df_display['Size'] * 0.092903).round(0).astype(int) # 1 sqft = 0.092903 m²
+    df_display.rename(columns={'Size': 'Size (m²)'}, inplace=True)
+    
+    sample_data = df_display.to_dict('records')
+    feature_names = df_display.columns.tolist()
     return render_template('index.html', sample_data=sample_data, feature_names=feature_names)
 
 

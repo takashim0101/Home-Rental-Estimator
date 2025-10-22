@@ -37,6 +37,14 @@
 
 ---
 
+## Application Demo
+
+Here's a screenshot of the application in action:
+
+![Home Rental Estimator Demo](images/summury_result.png)
+
+---
+
 ## Understanding the Prediction
 
 It's important to understand how machine learning models generate predictions and why they might differ from the raw data:
