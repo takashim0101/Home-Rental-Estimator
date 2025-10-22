@@ -21,7 +21,7 @@
     *   **Data Management**: Manages static data such as sample data and model details, or dynamic data like user accounts in the future.
 
     **Technologies**:
-    *   **Programming Language**: Python (Flask), Node.js (Express), C# (.NET), Java (Spring) など。
+    *   **Programming Language**: This project uses Python (Flask). Other common backend languages/frameworks include Node.js (Express), C# (.NET), Java (Spring), etc.
     *   **Machine Learning Libraries (for Python)**: Scikit-learn (used for implementing the Multiple Linear Regression model), Pandas (for data processing).
     *   **Web Framework**: Configures API endpoints and handles server-side logic.
 
