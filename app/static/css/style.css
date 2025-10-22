@@ -67,3 +67,48 @@ form button:hover {
     font-weight: 500;
     color: #333;
 }
+
+.sample-data-section {
+    margin-top: 40px;
+    text-align: center;
+    overflow-x: auto;
+}
+
+.sample-data-section h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.sample-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-size: 14px;
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
+.sample-data-table th,
+.sample-data-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.sample-data-table th {
+    background-color: #f2f2f2;
+    font-weight: 600;
+    color: #555;
+}
+
+.sample-data-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.sample-data-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.hidden {
+    display: none;
+}

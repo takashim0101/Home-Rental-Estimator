@@ -24,7 +24,9 @@ CORS(app) # Allow access from anywhere (should be restricted in a production env
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    sample_data = df.to_dict('records')
+    feature_names = df.columns.tolist()
+    return render_template('index.html', sample_data=sample_data, feature_names=feature_names)
 
 
 # Rent prediction API endpoint
@@ -40,18 +42,28 @@ def predict_rent():
     # Input values
     postal_code = str(data['postal_code'])
     size = int(data['property_size'])
+    # Convert size from m² to sqft (1 m² = 10.764 sqft)
+    size_sqft = round(size * 10.764)
     bedrooms = int(data['bedrooms'])
     age = int(data['property_age'])
 
     # Input validation
     if size <= 0 or bedrooms < 0 or age < 0:
         return jsonify({"error": "Property size, bedrooms, and age must be positive values."}), 400
+
+    # Range validation (based on training data)
+    if not (80 <= size <= 300):
+        return jsonify({"error": "Property size (m²) must be between 80 and 300."}), 400
+    if not (1 <= bedrooms <= 5):
+        return jsonify({"error": "Number of bedrooms must be between 1 and 5."}), 400
+    if not (1 <= age <= 20):
+        return jsonify({"error": "Property age (years) must be between 1 and 20."}), 400
     
     # Convert to the input format for the model (reproduce One-Hot Encoding)
     input_vector = np.zeros(len(features))
     
     # 1. Set Size, Bedrooms and Age
-    input_vector[0] = size
+    input_vector[0] = size_sqft
     input_vector[1] = bedrooms
     input_vector[2] = age
     

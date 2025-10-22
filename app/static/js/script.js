@@ -23,7 +23,7 @@ document.getElementById('rent-form').addEventListener('submit', function(event) 
         if (result.error) {
             resultDiv.innerHTML = `<span style="color: red;">Error: ${result.error}</span>`;
         } else {
-            resultDiv.innerHTML = `Predicted Rent: <strong>$${result.predicted_rent}</strong>`;
+            resultDiv.innerHTML = `Predicted Rent: <strong>NZ$${result.predicted_rent} per month</strong> (approx. NZ$${(result.predicted_rent / 4).toFixed(0)} per week)`;
         }
         resultDiv.style.display = 'block';
     })
@@ -32,4 +32,16 @@ document.getElementById('rent-form').addEventListener('submit', function(event) 
         resultDiv.innerHTML = 'An error occurred. Please try again.';
         resultDiv.style.display = 'block';
     });
+});
+
+document.getElementById('toggle-sample-data').addEventListener('click', function() {
+    const sampleDataContent = document.getElementById('sample-data-content');
+    const button = this;
+    if (sampleDataContent.classList.contains('hidden')) {
+        sampleDataContent.classList.remove('hidden');
+        button.textContent = 'Hide Data';
+    } else {
+        sampleDataContent.classList.add('hidden');
+        button.textContent = 'Show Data';
+    }
 });

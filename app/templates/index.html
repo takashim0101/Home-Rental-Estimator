@@ -13,7 +13,7 @@
             <label for="postal_code">Postal Code:</label>
             <input type="text" id="postal_code" name="postal_code" required>
             
-            <label for="property_size">Property Size (sqft):</label>
+            <label for="property_size">Property Size (m²):</label>
             <input type="number" id="property_size" name="property_size" required>
             
             <label for="bedrooms">Bedrooms:</label>
@@ -25,6 +25,31 @@
             <button type="submit">Estimate Rent</button>
         </form>
         <div id="result" style="display: none;"></div>
+
+        <div class="sample-data-section">
+            <h2 style="display: inline-block; margin-right: 10px;">Sample Data</h2>
+            <button id="toggle-sample-data" type="button">Hide Data</button>
+            <div id="sample-data-content">
+                <table class="sample-data-table">
+                    <thead>
+                        <tr>
+                            {% for header in feature_names %}
+                            <th>{{ header }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in sample_data %}
+                        <tr>
+                            {% for header in feature_names %}
+                            <td>{{ row[header] }}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
