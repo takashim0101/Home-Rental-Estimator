@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>家賃予測アプリ</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .controls { margin-bottom: 20px; border: 1px solid #ccc; padding: 15px; }
+        #result { font-size: 1.5em; color: darkblue; margin-top: 20px; font-weight: bold; }
+        label { display: block; margin-top: 10px; }
+        input, select, button { padding: 8px; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+    <h1>Calculate Rental Price</h1>
+
+    <div class="controls">
+        <label for="postalCode">Postal Code:</label>
+        <select id="postalCode">
+            <option value="">Select a postal code...</option>
+            <option value="56789">56789</option>
+            <option value="23456">23456</option>
+            <option value="34567">34567</option>
+            <option value="45678">45678</option>
+        </select>
+
+        <label for="propertySize">Property Size (sq ft):</label>
+        <input type="number" id="propertySize" value="1500" min="800" max="6000">
+
+        <label for="bedrooms">Number of Bedrooms:</label>
+        <input type="number" id="bedrooms" value="2" min="1" max="5">
+
+        <button onclick="calculateRent()">CALCULATE RENT</button>
+    </div>
+
+    <h2>Predicted Monthly Rent:</h2>
+    <div id="result">$...</div>
+
+    <script>
+        // バックエンドAPIのURL (Flaskアプリが動いている場所)
+        const API_URL = 'http://127.0.0.1:5000/api/predict_rent';
+
+        async function calculateRent() {
+            const postalCode = document.getElementById('postalCode').value;
+            const propertySize = document.getElementById('propertySize').value;
+            const bedrooms = document.getElementById('bedrooms').value;
+            const resultDiv = document.getElementById('result');
+
+            if (!postalCode || !propertySize || !bedrooms) {
+                resultDiv.textContent = "Please select all property details.";
+                return;
+            }
+
+            try {
+                // バックエンドAPIにリクエストを送信
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        postal_code: postalCode,
+                        property_size: propertySize,
+                        bedrooms: bedrooms
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // 成功した場合、結果を表示
+                    resultDiv.textContent = `$${data.predicted_rent.toLocaleString()}`;
+                } else {
+                    // エラーメッセージを表示
+                    resultDiv.textContent = `Error: ${data.error || 'Prediction failed'}`;
+                }
+            } catch (error) {
+                // ネットワークエラーなどを処理
+                resultDiv.textContent = `Network error: Could not connect to the model server.`;
+                console.error('Fetch error:', error);
+            }
+        }
+    </script>
+
+</body>
+</html>
